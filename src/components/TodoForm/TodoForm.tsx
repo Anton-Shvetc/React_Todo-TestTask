@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
+import "./TodoForm.scss"
 
 interface TodoFormProps {
   addTodo: AddTodo;
@@ -19,10 +20,16 @@ export const TodoForm: React.FC<TodoFormProps> = ({ addTodo }) => {
 
   return (
     <form className="todo-form">
-      <input type="text" value={newTodo} className="todo-input" placeholder="What needs to be done?" onChange={handleChange} />
-        <button type="submit" className="todo-button" onClick={handleSubmit}>
-         +
-        </button>
+      <button className="todo-button" type="submit" onClick={handleSubmit}>
+        {"\u2771"}
+      </button>
+      <input
+        type="text"
+        value={newTodo}
+        className="todo-input"
+        placeholder="What needs to be done?"
+        onChange={handleChange}
+      />
     </form>
-  )
+  );
 };

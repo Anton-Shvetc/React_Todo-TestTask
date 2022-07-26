@@ -1,14 +1,13 @@
 import React from "react";
-import { TodoListItem } from './TodoListItem';
+import { TodoListItem } from './TodoListItem/TodoListItem';
 
 interface TodoListProps {
   todos: Array<Todo>;
   toggleComplete: ToggleComplete;
   onRemoveTodo: RemoveTodo;
-  editTodo: EditTodo;
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ todos, toggleComplete, onRemoveTodo, editTodo }) => {
+export const TodoList: React.FC<TodoListProps> = ({ todos, toggleComplete, onRemoveTodo }) => {
   
 
   return (
@@ -20,7 +19,6 @@ export const TodoList: React.FC<TodoListProps> = ({ todos, toggleComplete, onRem
             todo={todo}
             toggleComplete={toggleComplete}
             onRemoveTodo={onRemoveTodo}
-            editTodo={editTodo}
           />
         ))}
       </ul>

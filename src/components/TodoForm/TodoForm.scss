@@ -1,0 +1,28 @@
+.todo-input {
+  padding: 15px 0 15px 40px;
+  border: none;
+  outline: none;
+  width: 500px;
+  background: transparent;
+  border-bottom: 1px solid #b4b2b2
+}
+.todo-input::-webkit-input-placeholder {
+  font-style: italic;
+  opacity: 0.5;
+}
+
+.todo-input.edit {
+  border: 2px solid #149fff;
+}
+.todo-form {
+  position: relative;
+}
+.todo-form .todo-button {
+  position: absolute;
+  font-size: 18px;
+  top: 11px;
+  left: 10px;
+  opacity: 0.4;
+   transform: rotate(90deg)
+  
+}

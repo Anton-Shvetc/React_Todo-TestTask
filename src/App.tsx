@@ -1,21 +1,36 @@
-import React, { useState, useEffect} from "react";
-import "./App.css";
-import { TodoForm } from "./components/TodoForm";
+import React, { useState, useEffect } from "react";
+import "./App.scss";
+import { TodoForm } from "./components/TodoForm/TodoForm";
 import { TodoList } from "./components/TodoList";
 
 function App() {
+  const buttons = [
+    { name: "All", status: "all" },
+    { name: "Active", status: false },
+    { name: "Completed", status: true },
+  ];
+
   const [todos, setTodos] = useState<Array<Todo>>([
-    { text: "todo-1", complete: false },
-    { text: "todo-2", complete: true },
-    { text: "todo-3", complete: false },
+    { text: "Тестово задание", complete: false },
+    { text: "Прекрасный код", complete: true },
+    { text: "Покрытие тестами", complete: false },
   ]);
   const [filtered, setFilter] = useState(todos);
-   const count = todos.filter((e) => e.complete === false);
+  const [active, setActive] = useState<number>(0);
+
+  const count = todos.filter((e) => e.complete === false);
 
   useEffect(() => {
-    setFilter(todos)
-  }, [todos])
+    setFilter(todos);
+  }, [todos]);
 
+  const clearCompleted = () => {
+    let clearTodos = todos.map((todo) => {
+      return { text: todo.text, complete: false };
+    });
+    setTodos(clearTodos);
+    setActive(0);
+  };
 
   const toggleComplete: ToggleComplete = (selectedTodo) => {
     const updatedTodos = todos.map((todo) => {
@@ -25,6 +40,7 @@ function App() {
       return todo;
     });
     setTodos(updatedTodos);
+    setActive(0);
   };
 
   const addTodo: AddTodo = (newTodo) => {
@@ -35,44 +51,55 @@ function App() {
 
   const removeTodo: RemoveTodo = (todoToRemove) => {
     let updatedTodos: Array<Todo> = todos.filter(
-      (todo) => todo.text != todoToRemove.text
+      (todo) => todo.text !== todoToRemove.text
     );
     setTodos(updatedTodos);
   };
 
-  const editTodo: EditTodo = (todoToEdit) => {
-    let todoToUpdateIndex: number = todos.findIndex(
-      (todo) => todo.text == todoToEdit.text
-    );
-  };
-
-  const todoFilter: FilterTodo = (status) => {
-    if (status === 'all') {
-      setFilter(todos)
+  const todoFilter: FilterTodo = (status, index) => {
+    if (status === "all") {
+      setFilter(todos);
     } else {
-      let newTodo = [...todos].filter(item => item.complete === status)
-      setFilter(newTodo)
+      let newTodo = [...todos].filter((item) => item.complete === status);
+      setFilter(newTodo);
     }
-  }
-    
+    setActive(index);
+  };
 
   return (
     <div className="todo-app">
       <header>
-        <h1>Todos</h1>
+        <h1 className="todo-title">todos</h1>
       </header>
-      <TodoForm addTodo={addTodo} />
-      <TodoList
-        todos={filtered}
-        toggleComplete={toggleComplete}
-        onRemoveTodo={removeTodo}
-        editTodo={editTodo}
-      />
-      <button onClick={() => todoFilter("all")}>All</button>
-      <button onClick={() => todoFilter(false)}>Active </button>
-      <button onClick={() => todoFilter(true)}>Completed</button>
-      <button>Clear completed</button>
-      <div>{`${count.length} items left`}</div>
+      <div className="wrapper">
+        <div>
+          <TodoForm addTodo={addTodo} />
+          <TodoList
+            todos={filtered}
+            toggleComplete={toggleComplete}
+            onRemoveTodo={removeTodo}
+          />
+        </div>
+
+        <div className="todo-actions">
+          <div className="todo-count">{`${count.length} items left`}</div>
+          <div>
+            {buttons.map((button, idx) => (
+              <button
+                key={idx}
+                className={`todo-button ${active === idx ? "active" : ""}`}
+                onClick={() => todoFilter(button.status, idx)}
+              >
+                {button.name}
+              </button>
+            ))}
+          </div>
+
+          <button className="todo-button" onClick={() => clearCompleted()}>
+            Clear completed
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
