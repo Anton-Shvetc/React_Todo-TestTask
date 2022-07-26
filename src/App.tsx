@@ -47,6 +47,7 @@ function App() {
     if (newTodo !== "") {
       setTodos([...todos, { text: newTodo, complete: false }]);
     }
+    setActive(0);
   };
 
   const removeTodo: RemoveTodo = (todoToRemove) => {
@@ -54,6 +55,7 @@ function App() {
       (todo) => todo.text !== todoToRemove.text
     );
     setTodos(updatedTodos);
+    setActive(0);
   };
 
   const todoFilter: FilterTodo = (status, index) => {
